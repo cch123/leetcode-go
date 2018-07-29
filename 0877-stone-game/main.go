@@ -27,7 +27,7 @@ func stoneGame(piles []int) bool {
 				break
 			}
 
-			if f[i+1][j].sum > f[i][j-1].sum {
+			if f[i+1][j].left+piles[i] < f[i][j-1].left+piles[j] {
 				// 说明应该取右边的
 				f[i][j] = record{idx: j,
 					sum:  f[i][j-1].left + piles[j],
