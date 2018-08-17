@@ -3,8 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println(4, totalNQueens(4))
-	fmt.Println(8, totalNQueens(8))
+	fmt.Println(solveNQueens(4))
 }
 
 func abs(a int) int {
@@ -14,32 +13,49 @@ func abs(a int) int {
 	return a
 }
 
-func traverse(parentStack []int, level int, n int, res *int) {
-	//fmt.Println("level", level, "n", n, parentStack)
-	if level == n {
-		//fmt.Println(parentStack)
-		*res++
+func getResult(stack []int) []string {
+	result := []string{}
+	n := len(stack)
+	for i := 0; i < len(stack); i++ {
+		line := make([]byte, n)
+		for j := 0; j < len(line); j++ {
+			line[j] = '.'
+		}
+		line[stack[i]] = 'Q'
+		result = append(result, string(line))
 	}
 
-	for i := 0; i < n; i++ {
+	return result
+}
+
+func traverse(parentStack []int, currentLevel int, maxLevel int, res *[][]string) {
+	//fmt.Println(parentStack, currentLevel, maxLevel)
+	if currentLevel == maxLevel {
+		currentMatrix := getResult(parentStack)
+		*res = append(*res, currentMatrix)
+		return
+	}
+
+	for i := 0; i < maxLevel; i++ {
 		valid := true
 		for j := 0; j < len(parentStack); j++ {
-			if parentStack[j] == i || abs(parentStack[j]-i) == abs(j-level) {
+			r1, c1 := j, parentStack[j]
+			r2, c2 := currentLevel, i
+			if c1 == c2 || abs(r1-r2) == abs(c1-c2) {
+				// valid
 				valid = false
-				break
 			}
 		}
-
 		if valid {
 			currentStack := append([]int{}, parentStack...)
 			currentStack = append(currentStack, i)
-			traverse(currentStack, level+1, n, res)
+			traverse(currentStack, currentLevel+1, maxLevel, res)
 		}
 	}
 }
 
-func totalNQueens(n int) int {
-	var res int
+func solveNQueens(n int) [][]string {
+	res := [][]string{}
 	traverse([]int{}, 0, n, &res)
 	return res
 }
