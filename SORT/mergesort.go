@@ -13,12 +13,10 @@ func ms(arr[]int) {
 
 	left,right := arr[:len(arr)/2], arr[len(arr)/2:]
 
-	ms(left)
-	ms(right)
+	ms(left); ms(right)
 
 	// merge
-	merged := make([]int, len(arr))
-	x, y, idx := 0,0,0
+	x, y, idx, merged := 0,0,0, make([]int,len(arr))
 	for x < len(left) && y < len(right) {
 		if left[x] < right[y] {merged[idx] = left[x]; x++;idx++;continue;}
 		if left[x] >= right[y] {merged[idx] = right[y]; y++;idx++;continue;}
