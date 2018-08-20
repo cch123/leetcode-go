@@ -11,18 +11,22 @@ func main() {
 }
 
 func mark(s string, offset int, wordDict []string, marks []bool) {
-	//fmt.Println(s, offset, marks)
-	if len(s) == 0 {
+	fmt.Println(s[offset:], offset, marks)
+	if len(s) == 0 || offset >= len(s) {
 		return
 	}
 	for i := 0; i < len(wordDict); i++ {
-		if len(s) >= len(wordDict[i]) && strings.HasPrefix(s, wordDict[i]) {
+		if len(s[offset:]) >= len(wordDict[i]) && strings.HasPrefix(s[offset:], wordDict[i]) {
 			if marks[offset+len(wordDict[i])-1] == true {
+				// 这里是为了递归剪枝
+				// 否则的话数量级会非常之大
+				// 比如这里的例子：
+				// 10 ^ len(s)
 				continue
 			}
 			marks[offset+len(wordDict[i])-1] = true
-			//println(wordDict[i])
-			mark(s[len(wordDict[i]):], offset+len(wordDict[i]), wordDict, marks)
+			println(wordDict[i])
+			mark(s, offset+len(wordDict[i]), wordDict, marks)
 		}
 	}
 }
@@ -30,6 +34,5 @@ func mark(s string, offset int, wordDict []string, marks []bool) {
 func wordBreak(s string, wordDict []string) bool {
 	marks := make([]bool, len(s))
 	mark(s, 0, wordDict, marks)
-	//fmt.Println(marks)
 	return marks[len(s)-1]
 }
