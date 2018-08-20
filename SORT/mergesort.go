@@ -25,6 +25,6 @@ func ms(arr[]int) {
 	}
 	for x < len(left) { merged[idx] = left[x]; idx++; x++ }
 	for y < len(right) { merged[idx] = right[y]; idx++; y++ }
-	for i:=0;i<len(arr);i++{ arr[i] = merged[i] }
+	copy(arr, merged)
 }
 
