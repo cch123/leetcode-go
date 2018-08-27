@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() { arr := []int{5, 4, 3, 2, 1}; hs(arr); fmt.Println(arr) }
+func main() { arr := []int{9,8,7,6,5,5, 4, 3, 2, 1}; hs(arr); fmt.Println(arr) }
 
 func hs(arr []int) {
 	buildHeap(arr)
@@ -34,6 +34,7 @@ func adjustHeap(arr []int, minIdx int, maxIdx int) {
 		}
 		if idx == i {break}
 		arr[idx], arr[i] = arr[i], arr[idx]
+		i = idx
 	}
 }
 
