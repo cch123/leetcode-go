@@ -47,14 +47,12 @@ func (this *FreqStack) Push(x int) {
 }
 
 func (this *FreqStack) Pop() int {
-	resStack := this.freq2stack[this.maxFreq]
-	lastIdx := len(resStack) - 1
-	res := resStack[lastIdx]
-	resStack = resStack[:len(resStack)-1] // pop
-	this.freq2stack[this.maxFreq] = resStack
+	lastIdx := len(this.freq2stack[this.maxFreq]) - 1
+	res := this.freq2stack[this.maxFreq][lastIdx]
+	this.freq2stack[this.maxFreq] = this.freq2stack[this.maxFreq][:lastIdx] // pop
 	this.freq[res]--
 
-	if len(resStack) == 0 {
+	if len(this.freq2stack[this.maxFreq]) == 0 {
 		delete(this.freq2stack, this.maxFreq)
 		this.maxFreq--
 	}
