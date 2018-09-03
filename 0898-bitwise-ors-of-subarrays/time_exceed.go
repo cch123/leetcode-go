@@ -9,24 +9,22 @@ func main() {
 }
 
 func subarrayBitwiseORs(A []int) int {
+	bitwiseArr := make([]int, len(A))
 	resMap := map[int]bool{}
-	curMap := map[int]bool{}
 
 	// 起始位置
 	for i := 0; i < len(A); i++ {
-		curNew := map[int]bool{}
-		for v := range curMap {
-			newV := v | A[i]
-			if resMap[newV] == false {
-				resMap[newV] = true
+		// 起始位置
+		for j := i; j < len(A); j++ {
+			if j-i == 0 {
+				bitwiseArr[j] = A[j]
+			} else {
+				bitwiseArr[j] = bitwiseArr[j-1] | A[j]
 			}
-			curNew[newV] = true
+			if resMap[bitwiseArr[j]] == false {
+				resMap[bitwiseArr[j]] = true
+			}
 		}
-		curNew[A[i]] = true
-		if resMap[A[i]] == false {
-			resMap[A[i]] = true
-		}
-		curMap = curNew
 	}
 	return len(resMap)
 }
